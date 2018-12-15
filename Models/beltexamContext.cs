@@ -10,4 +10,5 @@ namespace beltexam.Models
     public DbSet<UserAndActivity> UsersAndActivities { get; set; }
 
   }
+  
 }
