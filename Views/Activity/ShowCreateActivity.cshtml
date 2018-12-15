@@ -1,0 +1,62 @@
+@using beltexam.Models
+@model Activity
+@Html.Partial("_HeaderWithHome")
+<h3>Create an activity</h3>
+
+<form asp-controller="Activity" asp-action="CreateActivity" method="post">
+  <div>
+    <label asp-for="Title"></label>
+    <input  asp-for="Title">
+    <span asp-validation-for="Title"></span>
+    <label class="time" name="Time">Time</label>
+    <select name="Hour" type="text">
+      <option value="12">12</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+      <option value="6">6</option>
+      <option value="7">7</option>
+      <option value="8">8</option>
+      <option value="9">9</option>
+      <option value="10">10</option>
+      <option value="11">11</option>
+    </select>
+    <select name="Minute">
+      <option value="00">00</option>
+      <option value="15">15</option>
+      <option value="30">30</option>
+      <option value="45">45</option>
+      
+    </select>
+    <select name="ampm">
+      <option value="AM">AM</option>
+      <option value="PM">PM</option>
+    </select>
+    
+  </div>
+  <div>    
+    <label asp-for="Date"></label>
+    <input asp-for="Date" type="date">
+    <span asp-validation-for="Date"></span>
+    <label asp-for="Duration"></label>
+    <input asp-for="Duration">
+    <span asp-validation-for="Duration"></span>
+    <select asp-for="DurationUnit">
+      <option value="Minutes">Minutes</option>
+      <option value="Hours">Hours</option>
+      <option value="Days">Days</option>
+    </select>
+  </div>
+  <label asp-for="Description"></label>
+  <br>
+  <textarea asp-for="Description" cols="80" rows="6"></textarea>
+  <span asp-validation-for="Description"></span>
+  <br>
+  <input type="hidden" asp-for="CreatorId" value="@ViewBag.LoggedInUserId">
+  <input type="hidden" name="FirstName" value="@ViewBag.LoggedInUser.FirstName">
+  <input type="hidden" name="LastName" value="@ViewBag.LoggedInUser.LastName">
+  <input type="submit" value="Create Activity" class="btn btn-success">
+
+</form>

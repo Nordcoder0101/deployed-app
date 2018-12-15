@@ -1,0 +1,15 @@
+.headerspan{
+  display: inline-block;
+}
+
+.time{
+  padding: 0 0 0 28px;
+}
+
+.logout {
+  margin: 0 0 0 120px;
+}
+
+.welcome{
+  margin: 0 0 0 30px;
+}

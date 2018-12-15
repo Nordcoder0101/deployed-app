@@ -1,0 +1,54 @@
+@using beltexam.Models
+@model UserAndActivity
+
+@Html.Partial("_HeaderWithHome")
+
+<h2>@ViewBag.ActivityToShow.Title</h2>
+<h4 class ="headerspan">Event Coordinator:  @ViewBag.ActivityToShow.CreatorName</h4>
+
+   @if (@ViewBag.ActivityToShow.CreatorId == @ViewBag.LoggedInUser.UserId)
+      {
+        
+          <a class="btn btn-danger" href="/deleteactivity/@ViewBag.ActivityToShow.ActivityId">Delete</a>
+        
+      }
+      else 
+      {
+        @if (@ViewBag.ActivityToShow.UserAndActivities.Count != 0)
+        {
+        @foreach (var item in @ViewBag.ActivityToShow.UserAndActivities)
+        {
+          @if(item.UserId == @ViewBag.LoggedInUser.UserId)
+          {
+            <td>
+              <a class="btn btn-danger" href="/delete/@item.ActivityId">Leave</a>
+            </td>
+          }
+        }
+        }
+          else
+          {
+            <td>
+              <form asp-action="CreateUserAndActivity" asp-controller="UserAndActivity" method="Post">
+                <input type="hidden" asp-for="UserId" value="@ViewBag.LoggedInUser.UserId">
+                <input type="hidden" asp-for="ActivityId" value="@ViewBag.ActivityToShow.ActivityId">
+                <input type="submit" value="Join" class="btn btn-primary">
+              </form>
+            </td>
+          }
+        
+      
+      
+      }
+<br>
+<h4>Description</h4>
+<p>@ViewBag.ActivityToShow.Description</p>
+
+<h4>Participants</h4>
+@foreach (var item in @ViewBag.AllActivities)
+{
+    @foreach (var i in item.UserAndActivities)
+    {
+        <h4>@i.User.FirstName @i.User.LastName</h4>
+    }
+}

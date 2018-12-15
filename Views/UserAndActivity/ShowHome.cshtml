@@ -1,0 +1,72 @@
+@using beltexam.Models
+@model UserAndActivity
+
+<h1 class="headerspan">Dojo Activity Center</h1>
+<span class="welcome">Welcome @ViewBag.LoggedInUser.FirstName</span><a class="logout" href="/logout">Log Off</a>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Activity</th>
+      <th>Date and Time</th>
+      <th>Duration</th>
+      <th>Event Coordinator</th>
+      <th>Number of Participants</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+  @foreach (var a in @ViewBag.AllActivities)
+  {
+    @if(@a.Date > DateTime.Now)
+    {
+    <tr>
+      <td><a href="activity/@a.ActivityId">@a.Title</a></td>
+      <td>@a.Date</td>
+      <td>@a.Duration @a.DurationUnit</td>
+      <td>@a.CreatorName</td>
+      <td>@a.UserAndActivities.Count</td>
+
+      @if (@a.CreatorId == @ViewBag.LoggedInUser.UserId)
+      {
+        <td>
+          <a class="btn btn-danger" href="/deleteactivity/@a.ActivityId">Delete</a>
+        </td>
+      }
+      else 
+      {
+        @if (@a.UserAndActivities.Count != 0)
+        {
+        @foreach (var item in a.UserAndActivities)
+        {
+          @if(item.UserId == @ViewBag.LoggedInUser.UserId)
+          {
+            <td>
+              <a class="btn btn-danger" href="/delete/@item.ActivityId">Leave</a>
+            </td>
+          }
+        }
+        }
+          else
+          {
+            <td>
+              <form asp-action="CreateUserAndActivity" asp-controller="UserAndActivity" method="Post">
+                <input type="hidden" asp-for="UserId" value="@ViewBag.LoggedInUser.UserId">
+                <input type="hidden" asp-for="ActivityId" value="@a.ActivityId">
+                <input type="submit" value="Join" class="btn btn-primary">
+              </form>
+            </td>
+          }
+        
+      
+      
+      }
+      
+      
+    </tr>
+    }
+  }
+  </tbody>
+</table>
+
+<a href="/showcreateactivity" class="createactivity btn btn-primary">Create New Activity </a>
